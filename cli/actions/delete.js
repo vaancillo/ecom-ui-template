@@ -1,6 +1,6 @@
 const { bold, dim } = require('kleur')
 
-async function deleteAction(productsIndices) {
+async function deleteAction (productsIndices) {
   const [productsIndex] = productsIndices
 
   console.log()

@@ -3,7 +3,7 @@ const { bold, dim } = require('kleur')
 
 const { readJsonFiles, saveObjectsByChunks } = require('../utils')
 
-async function importAction(
+async function importAction (
   productsIndices,
   productsIndicesNames,
   useVirtualReplicas
@@ -12,13 +12,13 @@ async function importAction(
     productsIndex,
     productsPriceAscIndex,
     productsPriceDescIndex,
-    productsQuerySuggestionsIndex,
+    productsQuerySuggestionsIndex
   ] = productsIndices
 
   const [
     productsIndexName,
     productsPriceAscIndexName,
-    productsPriceDescIndexName,
+    productsPriceDescIndexName
   ] = productsIndicesNames
 
   const productsIndexExists = await productsIndex.exists()
@@ -31,7 +31,7 @@ async function importAction(
       name: 'confirm',
       message:
         'Some indices already exist in your Algolia application, are you sure you want to continue?',
-      initial: false,
+      initial: false
     })
 
     if (!confirm) {
@@ -47,12 +47,12 @@ async function importAction(
     productsDataset,
     productsConfiguration,
     productsQuerySuggestionsDataset,
-    productsQuerySuggestionsConfiguration,
+    productsQuerySuggestionsConfiguration
   ] = await readJsonFiles([
     './data/products_dataset.json',
     './data/products_configuration.json',
     './data/products_query_suggestions_dataset.json',
-    './data/products_query_suggestions_configuration.json',
+    './data/products_query_suggestions_configuration.json'
   ])
 
   // Products index - Create replicas
@@ -68,8 +68,8 @@ async function importAction(
           : productsPriceAscIndexName,
         useVirtualReplicas
           ? `virtual(${productsPriceDescIndexName})`
-          : productsPriceDescIndexName,
-      ],
+          : productsPriceDescIndexName
+      ]
     })
     .wait()
 
@@ -77,7 +77,7 @@ async function importAction(
   console.info(dim('Set products index settings...'))
 
   await productsIndex.setSettings(productsConfiguration.settings, {
-    forwardToReplicas: true,
+    forwardToReplicas: true
   })
 
   // Products index - Save rules
@@ -85,14 +85,14 @@ async function importAction(
 
   await productsIndex.saveRules(productsConfiguration.rules, {
     forwardToReplicas: true,
-    clearExistingRules: true,
+    clearExistingRules: true
   })
 
   // Products index - Save synonyms
   console.info(dim('Create products synonyms...'))
 
   await productsIndex.saveSynonyms(productsConfiguration.synonyms, {
-    forwardToReplicas: true,
+    forwardToReplicas: true
   })
 
   // Products index - Save objects
@@ -110,10 +110,10 @@ async function importAction(
   )
 
   await productsPriceAscIndex.setSettings({
-    customRanking: ['asc(price.value)', 'desc(reviews.bayesian_avg)'],
+    customRanking: ['asc(price.value)', 'desc(reviews.bayesian_avg)']
   })
   await productsPriceDescIndex.setSettings({
-    customRanking: ['desc(price.value)', 'desc(reviews.bayesian_avg)'],
+    customRanking: ['desc(price.value)', 'desc(reviews.bayesian_avg)']
   })
 
   // Products query suggestions index - Set settings
@@ -129,7 +129,7 @@ async function importAction(
   await productsQuerySuggestionsIndex.saveRules(
     productsQuerySuggestionsConfiguration.rules,
     {
-      clearExistingRules: true,
+      clearExistingRules: true
     }
   )
 

@@ -3,6 +3,6 @@ module.exports = {
     'postcss-easy-import',
     'tailwindcss/nesting',
     'tailwindcss',
-    'autoprefixer',
+    'autoprefixer'
   ]
 }

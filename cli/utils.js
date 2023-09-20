@@ -2,14 +2,14 @@ const fs = require('fs')
 const Readable = require('stream').Readable
 const StreamArray = require('stream-json/streamers/StreamArray')
 
-function readFile(fileName) {
+function readFile (fileName) {
   return new Promise(function (resolve, reject) {
     fs.readFile(fileName, 'utf8', function (err, data) {
       if (err) {
         throw {
           code: 'ERR_READ_ERROR',
           file: fileName,
-          message: 'Read error (file "' + fileName + '"): ' + err.message,
+          message: 'Read error (file "' + fileName + '"): ' + err.message
         }
       } else {
         resolve({ name: fileName, content: data })
@@ -18,7 +18,7 @@ function readFile(fileName) {
   })
 }
 
-function readJsonFiles(fileList) {
+function readJsonFiles (fileList) {
   return Promise.all(fileList.map(readFile))
     .then(function (fileContentList) {
       try {
@@ -32,7 +32,7 @@ function readJsonFiles(fileList) {
               code: 'ERR_PARSE_ERROR',
               file: fileContent.name,
               message:
-                'Parse error (file "' + fileContent.name + '"): ' + err.message,
+                'Parse error (file "' + fileContent.name + '"): ' + err.message
             }
           }
           returnArray.push(parsedFileContent)
@@ -47,7 +47,7 @@ function readJsonFiles(fileList) {
     })
 }
 
-function saveObjectsByChunks(index, records) {
+function saveObjectsByChunks (index, records) {
   const stream = Readable.from(records).pipe(StreamArray.withParser())
   let chunks = []
 
@@ -70,7 +70,7 @@ function saveObjectsByChunks(index, records) {
         if (chunks.length) {
           index
             .saveObjects(chunks, {
-              autoGenerateObjectIDIfNotExist: true,
+              autoGenerateObjectIDIfNotExist: true
             })
             .catch(reject)
             .then(resolve)
@@ -80,7 +80,7 @@ function saveObjectsByChunks(index, records) {
   })
 }
 
-function getIndices(client, indicesNames) {
+function getIndices (client, indicesNames) {
   return Promise.all(
     indicesNames.map((indexName) => client.initIndex(indexName))
   )

@@ -1,30 +1,30 @@
 const withNextPlugins = require('next-compose-plugins')
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
+  enabled: process.env.ANALYZE === 'true'
 })
 const withPWA = require('next-pwa')
 
 const ifdefOpts = {
   DEV: process.env.NODE_ENV === 'development',
   PROD: process.env.NODE_ENV === 'production',
-  TEST: process.env.NODE_ENV === 'test',
+  TEST: process.env.NODE_ENV === 'test'
 }
 
 /** @type {import('next').NextConfig} */
 module.exports = withNextPlugins([withBundleAnalyzer, withPWA], {
   generateBuildId: () => 'build',
   eslint: {
-    dirs: ['pages', 'components', 'config', 'layouts', 'lib', 'utils', 'hooks'],
+    dirs: ['pages', 'components', 'config', 'layouts', 'lib', 'utils', 'hooks']
   },
   images: {
     formats: ['image/avif', 'image/webp'],
     domains: ['res.cloudinary.com'],
     deviceSizes: [375, 425, 768, 828, 1024, 1440, 1920, 2560],
-    minimumCacheTTL: 60 * 60 * 24,
+    minimumCacheTTL: 60 * 60 * 24
   },
   pwa: {
     dest: 'public',
-    disable: process.env.NODE_ENV !== 'production',
+    disable: process.env.NODE_ENV !== 'production'
   },
   webpack: (config) => {
     const rules = config.module.rules
@@ -35,9 +35,9 @@ module.exports = withNextPlugins([withBundleAnalyzer, withPWA], {
       use: [
         {
           loader: 'ifdef-loader',
-          options: ifdefOpts,
-        },
-      ],
+          options: ifdefOpts
+        }
+      ]
     })
 
     // SVGR loader
@@ -49,13 +49,13 @@ module.exports = withNextPlugins([withBundleAnalyzer, withPWA], {
           options: {
             icon: true,
             svgProps: {
-              fill: 'currentColor',
-            },
-          },
-        },
-      ],
+              fill: 'currentColor'
+            }
+          }
+        }
+      ]
     })
 
     return config
-  },
+  }
 })

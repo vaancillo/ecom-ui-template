@@ -12,7 +12,7 @@ const getIndicesNames = (indexNamePrefix, indexNameProducts) => {
     `${indexNamePrefix}${indexNameProducts}`,
     `${indexNamePrefix}${indexNameProducts}_price_asc`,
     `${indexNamePrefix}${indexNameProducts}_price_desc`,
-    `${indexNamePrefix}${indexNameProducts}_query_suggestions`,
+    `${indexNamePrefix}${indexNameProducts}_query_suggestions`
   ]
 }
 
@@ -28,51 +28,51 @@ const questions = [
         title: 'Import',
         description:
           'Import the preview datasets into your Algolia application.',
-        value: 'import',
+        value: 'import'
       },
       {
         title: 'Delete',
         description:
           'Delete the preview datasets from your Algolia application.',
-        value: 'delete',
-      },
+        value: 'delete'
+      }
     ],
-    initial: 0,
+    initial: 0
   },
   {
     type: 'text',
     name: 'appId',
     message: 'What is your Algolia application ID?',
     initial: process.env.CLI_APP_ID,
-    validate: validateNotEmpty,
+    validate: validateNotEmpty
   },
   {
     type: 'password',
     name: 'adminApiKey',
     message: 'What is your Algolia admin API key?',
     initial: process.env.CLI_ADMIN_API_KEY,
-    validate: validateNotEmpty,
+    validate: validateNotEmpty
   },
   {
     type: 'text',
     name: 'indexNamePrefix',
     message: 'Choose the prefix used for each index name created',
     initial: 'pwa_ecom_ui_template_',
-    validate: validateNotEmpty,
+    validate: validateNotEmpty
   },
   {
     type: 'text',
     name: 'indexNameProducts',
     message: 'Choose the products index name',
     initial: 'products',
-    validate: validateNotEmpty,
+    validate: validateNotEmpty
   },
   {
     type: (prev, values) => (values.action === 'import' ? 'confirm' : null),
     name: 'useVirtualReplicas',
     message:
       'Do you want to use virtual replicas? (only available with the Premium plan)',
-    initial: false,
+    initial: false
   },
   {
     type: 'confirm',
@@ -86,8 +86,8 @@ const questions = [
         .map((i) => `    - ${i}`)
         .join('\n')}\nAre you sure to continue?`
     },
-    initial: true,
-  },
+    initial: true
+  }
 ]
 
 ;(async () => {
@@ -104,9 +104,9 @@ const questions = [
     indexNamePrefix,
     indexNameProducts,
     useVirtualReplicas,
-    confirm,
+    confirm
   } = await prompts(questions, {
-    onCancel,
+    onCancel
   })
 
   if (cancelled || !confirm) {
