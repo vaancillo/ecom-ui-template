@@ -1,11 +1,11 @@
-const algoliasearch = require('algoliasearch')
-const prompts = require('prompts')
-const { bold, underline } = require('kleur')
+import algoliasearch from 'algoliasearch'
+import prompts from 'prompts'
+import { bold, underline } from 'kleur'
 
-const importAction = require('./actions/import')
-const deleteAction = require('./actions/delete')
+import importAction from './actions/import'
+import deleteAction from './actions/delete'
 
-const { getIndices } = require('./utils')
+import { getIndices } from './utils'
 
 const getIndicesNames = (indexNamePrefix, indexNameProducts) => {
   return [

@@ -1,10 +1,10 @@
-const fs = require('fs')
-const Readable = require('stream').Readable
-const StreamArray = require('stream-json/streamers/StreamArray')
+import { readFile as _readFile } from 'fs'
+import { Readable } from 'stream'
+import { withParser } from 'stream-json/streamers/StreamArray'
 
 function readFile (fileName) {
   return new Promise(function (resolve, reject) {
-    fs.readFile(fileName, 'utf8', function (err, data) {
+    _readFile(fileName, 'utf8', function (err, data) {
       if (err) {
         throw {
           code: 'ERR_READ_ERROR',
@@ -48,7 +48,7 @@ function readJsonFiles (fileList) {
 }
 
 function saveObjectsByChunks (index, records) {
-  const stream = Readable.from(records).pipe(StreamArray.withParser())
+  const stream = Readable.from(records).pipe(withParser())
   let chunks = []
 
   return new Promise((resolve, reject) => {
@@ -86,4 +86,4 @@ function getIndices (client, indicesNames) {
   )
 }
 
-module.exports = { readJsonFiles, saveObjectsByChunks, getIndices }
+export default { readJsonFiles, saveObjectsByChunks, getIndices }

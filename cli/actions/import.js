@@ -1,7 +1,7 @@
-const prompts = require('prompts')
-const { bold, dim } = require('kleur')
+import prompts from 'prompts'
+import { bold, dim } from 'kleur'
 
-const { readJsonFiles, saveObjectsByChunks } = require('../utils')
+import { readJsonFiles, saveObjectsByChunks } from '../utils'
 
 async function importAction (
   productsIndices,
@@ -155,4 +155,4 @@ async function importAction (
   console.info(bold().green('✔ Datasets imported successfully'))
 }
 
-module.exports = importAction
+export default importAction

@@ -1,4 +1,4 @@
-const { bold, dim } = require('kleur')
+import { bold, dim } from 'kleur'
 
 async function deleteAction (productsIndices) {
   const [productsIndex] = productsIndices
@@ -17,4 +17,4 @@ async function deleteAction (productsIndices) {
   console.info(bold().green('✔ Datasets deleted'))
 }
 
-module.exports = deleteAction
+export default deleteAction
